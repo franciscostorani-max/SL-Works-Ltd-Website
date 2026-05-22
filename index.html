@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLWorks — Classic & Modern Car Mechanical Repairs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C8A96A;
+      --gold-light: #E2C98A;
+      --gold-dark: #9A7A45;
+      --orange: #D4783A;
+      --charcoal: #1A1A1A;
+      --charcoal-mid: #242424;
+      --charcoal-light: #2E2E2E;
+      --gray: #9A9A9A;
+      --off-white: #F5F0E8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--charcoal);
+      color: var(--off-white);
+      overflow-x: hidden;
+    }
+
+    .font-display { font-family: 'Cinzel', serif; }
+
+    .text-gold {
+      background: linear-gradient(135deg, #E2C98A 0%, #C8A96A 45%, #9A7A45 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(200,169,106,0.1);
+    }
+
+    .nav-link {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.65);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: var(--gold); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #1A1A1A;
+      background: linear-gradient(135deg, #E2C98A 0%, #C8A96A 50%, #A8844A 100%);
+      padding: 14px 36px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, opacity 0.2s ease;
+      box-shadow: 0 4px 18px rgba(200,169,106,0.28), 0 1px 4px rgba(0,0,0,0.5);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(200,169,106,0.4), 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .btn-primary:active { transform: translateY(-1px); }
+    .btn-primary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--gold);
+      background: transparent;
+      padding: 13px 36px;
+      border: 1px solid rgba(200,169,106,0.45);
+      cursor: pointer;
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), background 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-outline:hover {
+      transform: translateY(-3px);
+      background: rgba(200,169,106,0.07);
+      border-color: rgba(200,169,106,0.7);
+    }
+    .btn-outline:active { transform: translateY(-1px); }
+    .btn-outline:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* ── Dividers ── */
+    .divider-gold {
+      display: block;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.35;
+    }
+    .divider-h { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); opacity: 0.5; display: inline-block; }
+
+    /* ── Section backgrounds ── */
+    .bg-alt {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(200,169,106,0.05) 0%, transparent 70%),
+        #1F1F1F;
+    }
+
+    /* ── Service cards ── */
+    .service-card {
+      background: linear-gradient(150deg, #272727, #1E1E1E);
+      border: 1px solid rgba(200,169,106,0.1);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.3);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+      display: block;
+    }
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(200,169,106,0.35);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,106,0.18), 0 6px 12px rgba(200,169,106,0.08);
+    }
+
+    /* ── Icon circles ── */
+    .icon-ring {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(200,169,106,0.13), rgba(200,169,106,0.04));
+      border: 1px solid rgba(200,169,106,0.28);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-ring-sm {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(200,169,106,0.12), rgba(200,169,106,0.03));
+      border: 1px solid rgba(200,169,106,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Testimonials ── */
+    .t-card {
+      background: linear-gradient(145deg, #252525, #1C1C1C);
+      border: 1px solid rgba(200,169,106,0.1);
+      box-shadow: 0 8px 36px rgba(0,0,0,0.4);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .t-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(200,169,106,0.25);
+    }
+
+    /* ── Process steps ── */
+    .step-number {
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(135deg, #E2C98A 0%, #C8A96A 60%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* ── Form inputs ── */
+    .form-input {
+      width: 100%;
+      background: #161616;
+      border: 1px solid rgba(200,169,106,0.14);
+      color: var(--off-white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-input::placeholder { color: rgba(245,240,232,0.3); }
+    .form-input:focus { border-color: rgba(200,169,106,0.55); }
+    .form-input:focus-visible { outline: none; }
+
+    /* ── Scroll animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ── Eyebrow label ── */
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .eyebrow span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Stat number ── */
+    .stat-n {
+      font-family: 'Cinzel', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, #E2C98A 0%, #C8A96A 60%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Layered noise ── */
+    .noise-layer {
+      position: relative;
+    }
+    .noise-layer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+    .noise-layer > * { position: relative; z-index: 1; }
+
+    /* ── Mobile menu ── */
+    #mobile-nav { display: none; }
+    #mobile-nav.open { display: flex; }
+
+    /* Star rating */
+    .stars { color: #C8A96A; letter-spacing: 1px; }
+
+    /* Horizontal rule between sections */
+    section + section { }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════ NAVIGATION ═══════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50" style="position:fixed;">
+  <div style="max-width:1280px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:72px;">
+
+    <!-- Logo -->
+    <a href="#" style="flex-shrink:0; display:flex; align-items:center;">
+      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SLWorks" style="height:52px; width:auto; filter:drop-shadow(0 2px 10px rgba(200,169,106,0.2));">
+    </a>
+
+    <!-- Desktop links -->
+    <div style="display:flex; align-items:center; gap:36px;" class="desktop-nav">
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#process" class="nav-link">Process</a>
+      <a href="#testimonials" class="nav-link">Reviews</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+
+    <!-- Nav CTA -->
+    <a href="#contact" class="btn-primary" style="padding:11px 28px; font-size:0.68rem;" class="desktop-nav">Book a Service</a>
+
+    <!-- Hamburger -->
+    <button id="burger" aria-label="Open menu" onclick="toggleMenu()" style="display:none; flex-direction:column; gap:5px; padding:8px; background:none; border:none; cursor:pointer;">
+      <span style="display:block;width:22px;height:1.5px;background:var(--gold);transition:transform 0.2s ease;"></span>
+      <span style="display:block;width:22px;height:1.5px;background:var(--gold);"></span>
+      <span style="display:block;width:14px;height:1.5px;background:var(--gold);"></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav -->
+  <div id="mobile-nav" style="flex-direction:column; gap:20px; padding:24px; border-top:1px solid rgba(200,169,106,0.1); background:rgba(10,10,10,0.97);">
+    <a href="#services" class="nav-link" onclick="toggleMenu()">Services</a>
+    <a href="#about" class="nav-link" onclick="toggleMenu()">About</a>
+    <a href="#process" class="nav-link" onclick="toggleMenu()">Process</a>
+    <a href="#testimonials" class="nav-link" onclick="toggleMenu()">Reviews</a>
+    <a href="#contact" class="nav-link" onclick="toggleMenu()">Contact</a>
+    <a href="#contact" class="btn-primary" style="text-align:center; margin-top:8px;" onclick="toggleMenu()">Book a Service</a>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="noise-layer" style="
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 72px;
+  background-image:
+    linear-gradient(180deg, rgba(10,10,10,0.45) 0%, rgba(10,10,10,0.28) 40%, rgba(10,10,10,0.62) 100%),
+    url('picture_gallery/Michele%20with%20F40.png');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+">
+  <!-- Bottom vignette — blends photo into next section -->
+  <div style="position:absolute; bottom:0; left:0; right:0; height:220px; pointer-events:none; background:linear-gradient(to top, #1F1F1F 0%, transparent 100%);"></div>
+  <!-- Subtle gold glow at base -->
+  <div style="position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:60%; height:120px; pointer-events:none; background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(200,169,106,0.07) 0%, transparent 100%);"></div>
+
+  <div style="max-width:900px; margin:0 auto; padding:80px 24px 120px; text-align:center; position:relative; z-index:2;">
+
+    <!-- Eyebrow -->
+    <div style="display:flex; align-items:center; justify-content:center; gap:14px; margin-bottom:28px;" class="reveal">
+      <div class="divider-h"></div>
+      <span style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold);">London, United Kingdom</span>
+      <div class="divider-h" style="background:linear-gradient(90deg, var(--gold), transparent);"></div>
+    </div>
+
+    <!-- Logo large -->
+    <div style="display:flex; justify-content:center; margin-bottom:40px;" class="reveal" style="transition-delay:0.05s;">
+      <img
+        src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG"
+        alt="SLWorks — Classic & Modern Cars"
+        style="width:min(440px, 86vw); height:auto; filter:drop-shadow(0 12px 40px rgba(200,169,106,0.22)) drop-shadow(0 4px 12px rgba(0,0,0,0.6));"
+      >
+    </div>
+
+    <!-- Headline -->
+    <h1 class="reveal" style="transition-delay:0.1s; font-family:'Cinzel',serif; font-size:clamp(1.9rem,4.5vw,3.5rem); font-weight:700; line-height:1.18; letter-spacing:-0.025em; color:var(--off-white); margin-bottom:18px;">
+      Where Craftsmanship<br>
+      <span class="text-gold">Meets Precision</span>
+    </h1>
+
+    <!-- Subheading -->
+    <p class="reveal" style="transition-delay:0.15s; font-size:0.95rem; line-height:1.82; color:rgba(245,240,232,0.58); max-width:520px; margin:0 auto 44px;">
+      Expert mobile mechanical repairs and maintenance for classic and modern vehicles. We come to you — at home, at work, or wherever your car is. Trusted by car enthusiasts across London.
+    </p>
+
+    <!-- CTAs -->
+    <div class="reveal" style="transition-delay:0.2s; display:flex; flex-wrap:wrap; gap:16px; justify-content:center;">
+      <a href="#contact" class="btn-primary">Book a Service</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+
+    <!-- Stats -->
+    <div class="reveal" style="transition-delay:0.28s; display:grid; grid-template-columns:repeat(3,1fr); gap:0; max-width:440px; margin:64px auto 0;">
+      <div style="text-align:center; padding:0 16px;">
+        <div class="stat-n">10+</div>
+        <div style="font-size:0.65rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(245,240,232,0.4); margin-top:6px;">Years Experience</div>
+      </div>
+      <div style="text-align:center; padding:0 16px; border-left:1px solid rgba(200,169,106,0.18); border-right:1px solid rgba(200,169,106,0.18);">
+        <div class="stat-n">500+</div>
+        <div style="font-size:0.65rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(245,240,232,0.4); margin-top:6px;">Cars Serviced</div>
+      </div>
+      <div style="text-align:center; padding:0 16px;">
+        <div class="stat-n">100%</div>
+        <div style="font-size:0.65rem; letter-spacing:0.16em; text-transform:uppercase; color:rgba(245,240,232,0.4); margin-top:6px;">Satisfaction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div style="position:absolute; bottom:32px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:8px; opacity:0.45;">
+    <span style="font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold);">Scroll</span>
+    <div style="width:1px; height:36px; background:linear-gradient(180deg, var(--gold), transparent);"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ SERVICES ═══════════════════════ -->
+<section id="services" class="bg-alt" style="padding:100px 24px;">
+  <div style="max-width:1280px; margin:0 auto;">
+
+    <!-- Header -->
+    <div style="text-align:center; margin-bottom:60px;" class="reveal">
+      <div class="eyebrow" style="justify-content:center; margin-bottom:16px;">
+        <div class="divider-h"></div>
+        <span>What We Do</span>
+        <div class="divider-h" style="background:linear-gradient(90deg, var(--gold), transparent);"></div>
+      </div>
+      <h2 style="font-family:'Cinzel',serif; font-size:clamp(1.6rem,3vw,2.6rem); font-weight:700; letter-spacing:-0.02em; color:var(--off-white); margin-bottom:14px;">Our Services</h2>
+      <!-- Mobile badge -->
+      <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(200,169,106,0.08); border:1px solid rgba(200,169,106,0.28); padding:6px 16px; margin-bottom:16px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="1"/><circle cx="12" cy="21" r="1"/></svg>
+        <span style="font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold);">All Services Are Mobile — We Come To You</span>
+      </div>
+      <p style="font-size:0.88rem; line-height:1.85; color:rgba(245,240,232,0.52); max-width:500px; margin:0 auto;">From a quick checkover to a major service — every job done at your location, with genuine care and precision.</p>
+    </div>
+
+    <!-- Cards grid -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:20px;">
+
+      <!-- Engine Diagnostics -->
+      <div class="service-card reveal" style="padding:36px;">
+        <div class="icon-ring" style="margin-bottom:24px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:1rem; font-weight:600; letter-spacing:0.02em; color:var(--off-white); margin-bottom:12px;">Engine Diagnostics</h3>
+        <p style="font-size:0.82rem; line-height:1.82; color:rgba(245,240,232,0.52);">Advanced scanning and thorough inspection to identify and resolve issues before they escalate — from classic carburetors to modern ECUs.</p>
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(200,169,106,0.1);">
+          <a href="#contact" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none;">Enquire →</a>
+        </div>
+      </div>
+
+      <!-- Full Checkover -->
+      <div class="service-card reveal" style="padding:36px; transition-delay:0.07s;">
+        <div class="icon-ring" style="margin-bottom:24px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:1rem; font-weight:600; letter-spacing:0.02em; color:var(--off-white); margin-bottom:12px;">Full Checkover</h3>
+        <p style="font-size:0.82rem; line-height:1.82; color:rgba(245,240,232,0.52);">A comprehensive multi-point inspection covering all major systems — fluids, brakes, tyres, lights, and more — giving you a complete picture of your vehicle's condition.</p>
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(200,169,106,0.1);">
+          <a href="#contact" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none;">Enquire →</a>
+        </div>
+      </div>
+
+      <!-- Interim Service -->
+      <div class="service-card reveal" style="padding:36px; transition-delay:0.14s;">
+        <div class="icon-ring" style="margin-bottom:24px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:1rem; font-weight:600; letter-spacing:0.02em; color:var(--off-white); margin-bottom:12px;">Interim Service</h3>
+        <p style="font-size:0.82rem; line-height:1.82; color:rgba(245,240,232,0.52);">Ideal for high-mileage drivers. Includes an oil and filter change plus key safety checks — keeping your vehicle running smoothly between full services.</p>
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(200,169,106,0.1);">
+          <a href="#contact" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none;">Enquire →</a>
+        </div>
+      </div>
+
+      <!-- Full Service -->
+      <div class="service-card reveal" style="padding:36px; transition-delay:0.05s;">
+        <div class="icon-ring" style="margin-bottom:24px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:1rem; font-weight:600; letter-spacing:0.02em; color:var(--off-white); margin-bottom:12px;">Full Service</h3>
+        <p style="font-size:0.82rem; line-height:1.82; color:rgba(245,240,232,0.52);">Our annual service covers oil, filters, spark plugs, brakes, fluids, and a thorough safety inspection — everything your vehicle needs to perform at its best.</p>
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(200,169,106,0.1);">
+          <a href="#contact" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none;">Enquire →</a>
+        </div>
+      </div>
+
+      <!-- Major Service -->
+      <div class="service-card reveal" style="padding:36px; transition-delay:0.12s;">
+        <div class="icon-ring" style="margin-bottom:24px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:1rem; font-weight:600; letter-spacing:0.02em; color:var(--off-white); margin-bottom:12px;">Major Service</h3>
+        <p style="font-size:0.82rem; line-height:1.82; color:rgba(245,240,232,0.52);">The most comprehensive service we offer. In addition to a full service, we replace timing belts, coolant, transmission fluid, and carry out a complete vehicle health report.</p>
+        <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(200,169,106,0.1);">
+          <a href="#contact" style="font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none;">Enquire →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ ABOUT ═══════════════════════ -->
+<section id="about" style="background:#1A1A1A; padding:100px 24px; position:relative; overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 55% 65% at 0% 50%, rgba(200,169,106,0.05) 0%, transparent 70%);"></div>
+
+  <div style="max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;" class="about-grid">
+
+    <!-- Image -->
+    <div class="reveal" style="position:relative;">
+      <div style="position:relative; overflow:hidden;">
+        <img
+          src="https://placehold.co/680x520/141414/2a2a2a?text=SLWorks+Workshop"
+          alt="SLWorks Workshop — London"
+          style="width:100%; display:block; aspect-ratio:4/3; object-fit:cover; filter:contrast(1.05) brightness(0.8);"
+        >
+        <!-- Gradient overlay -->
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(26,26,26,0.65) 0%, transparent 55%);"></div>
+        <!-- Color wash -->
+        <div style="position:absolute;inset:0;background:rgba(200,169,106,0.04);mix-blend-mode:color;"></div>
+      </div>
+      <!-- Corner brackets -->
+      <div style="position:absolute;bottom:-14px;right:-14px;width:48px;height:48px;border-right:1px solid rgba(200,169,106,0.22);border-bottom:1px solid rgba(200,169,106,0.22);pointer-events:none;"></div>
+      <div style="position:absolute;top:-14px;left:-14px;width:40px;height:40px;border-left:1px solid rgba(200,169,106,0.16);border-top:1px solid rgba(200,169,106,0.16);pointer-events:none;"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="reveal" style="transition-delay:0.1s;">
+      <div class="eyebrow" style="margin-bottom:20px;">
+        <div class="divider-h"></div>
+        <span>About Us</span>
+      </div>
+      <h2 style="font-family:'Cinzel',serif; font-size:clamp(1.5rem,2.8vw,2.3rem); font-weight:700; letter-spacing:-0.02em; color:var(--off-white); line-height:1.25; margin-bottom:22px;">
+        Passionate About Every Vehicle That Enters Our Workshop
+      </h2>
+      <p style="font-size:0.85rem; line-height:1.88; color:rgba(245,240,232,0.58); margin-bottom:18px;">
+        SLWorks was built on a single mission: to bring genuine craftsmanship back to automotive repair. We believe every car — whether it rolled off the line in 1965 or 2024 — deserves to be cared for by someone who truly loves the work.
+      </p>
+      <p style="font-size:0.85rem; line-height:1.88; color:rgba(245,240,232,0.58); margin-bottom:36px;">
+        Our mobile team brings decades of hands-on experience and modern diagnostic equipment directly to your door. We don't cut corners, we don't rush the job, and we communicate every step of the way. That's how we've built the trust of London's car community.
+      </p>
+
+      <!-- Credentials -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 24px; margin-bottom:40px;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#C8A96A" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:0.8rem; color:rgba(245,240,232,0.68);">Licensed Master Mechanics</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#C8A96A" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:0.8rem; color:rgba(245,240,232,0.68);">Classic &amp; Modern Specialists</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#C8A96A" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:0.8rem; color:rgba(245,240,232,0.68);">Transparent Pricing Always</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#C8A96A" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:0.8rem; color:rgba(245,240,232,0.68);">All Makes &amp; Models</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#C8A96A" stroke-width="1"/><path d="M6 10l3 3 5-5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:0.8rem; color:rgba(245,240,232,0.68);">Fully Mobile — We Come To You</span>
+        </div>
+      </div>
+
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ PROCESS ═══════════════════════ -->
+<section id="process" class="bg-alt" style="padding:100px 24px;">
+  <div style="max-width:1100px; margin:0 auto;">
+
+    <div style="text-align:center; margin-bottom:64px;" class="reveal">
+      <div class="eyebrow" style="justify-content:center; margin-bottom:16px;">
+        <div class="divider-h"></div>
+        <span>How It Works</span>
+        <div class="divider-h" style="background:linear-gradient(90deg, var(--gold), transparent);"></div>
+      </div>
+      <h2 style="font-family:'Cinzel',serif; font-size:clamp(1.6rem,3vw,2.4rem); font-weight:700; letter-spacing:-0.02em; color:var(--off-white); margin-bottom:12px;">Our Process</h2>
+      <p style="font-size:0.88rem; line-height:1.8; color:rgba(245,240,232,0.5); max-width:360px; margin:0 auto;">Simple, transparent, and built around your schedule — no garage drop-off needed.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; position:relative;" class="process-grid">
+
+      <!-- Step 1 -->
+      <div class="reveal" style="text-align:center; padding:36px 20px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.14),rgba(200,169,106,0.04));border:1px solid rgba(200,169,106,0.32);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <span class="step-number">01</span>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--off-white); margin-bottom:12px;">Enquire</h3>
+        <p style="font-size:0.8rem; line-height:1.82; color:rgba(245,240,232,0.48);">Call, email, or fill the form. Tell us about your vehicle, what it needs, and where it is.</p>
+      </div>
+
+      <!-- Connector -->
+      <div style="position:absolute;top:72px;left:calc(25% - 12px);width:calc(25%);height:1px;background:linear-gradient(90deg,rgba(200,169,106,0.35),rgba(200,169,106,0.1));pointer-events:none;"></div>
+
+      <!-- Step 2 -->
+      <div class="reveal" style="text-align:center; padding:36px 20px; transition-delay:0.1s;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.14),rgba(200,169,106,0.04));border:1px solid rgba(200,169,106,0.32);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <span class="step-number">02</span>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--off-white); margin-bottom:12px;">Assessment</h3>
+        <p style="font-size:0.8rem; line-height:1.82; color:rgba(245,240,232,0.48);">We inspect and diagnose. You receive a detailed itemised quote before any work begins.</p>
+      </div>
+
+      <!-- Connector -->
+      <div style="position:absolute;top:72px;left:calc(50% - 12px);width:calc(25%);height:1px;background:linear-gradient(90deg,rgba(200,169,106,0.35),rgba(200,169,106,0.1));pointer-events:none;"></div>
+
+      <!-- Step 3 -->
+      <div class="reveal" style="text-align:center; padding:36px 20px; transition-delay:0.2s;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.14),rgba(200,169,106,0.04));border:1px solid rgba(200,169,106,0.32);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <span class="step-number">03</span>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--off-white); margin-bottom:12px;">Service</h3>
+        <p style="font-size:0.8rem; line-height:1.82; color:rgba(245,240,232,0.48);">Work is completed by skilled hands, with quality parts, on time and to the highest standard.</p>
+      </div>
+
+      <!-- Connector -->
+      <div style="position:absolute;top:72px;left:calc(75% - 12px);width:calc(25%);height:1px;background:linear-gradient(90deg,rgba(200,169,106,0.35),rgba(200,169,106,0.1));pointer-events:none;"></div>
+
+      <!-- Step 4 -->
+      <div class="reveal" style="text-align:center; padding:36px 20px; transition-delay:0.3s;">
+        <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.14),rgba(200,169,106,0.04));border:1px solid rgba(200,169,106,0.32);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+          <span class="step-number">04</span>
+        </div>
+        <h3 style="font-family:'Cinzel',serif; font-size:0.95rem; font-weight:600; color:var(--off-white); margin-bottom:12px;">Handover</h3>
+        <p style="font-size:0.8rem; line-height:1.82; color:rgba(245,240,232,0.48);">We walk you through everything done — right there at your location. Your car is ready to drive without ever leaving your driveway.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ TESTIMONIALS ═══════════════════════ -->
+<section id="testimonials" style="background:#1A1A1A; padding:100px 24px; position:relative; overflow:hidden;">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 55% at 100% 50%, rgba(200,169,106,0.04) 0%, transparent 70%);"></div>
+
+  <div style="max-width:1280px; margin:0 auto;">
+
+    <div style="text-align:center; margin-bottom:60px;" class="reveal">
+      <div class="eyebrow" style="justify-content:center; margin-bottom:16px;">
+        <div class="divider-h"></div>
+        <span>Client Reviews</span>
+        <div class="divider-h" style="background:linear-gradient(90deg, var(--gold), transparent);"></div>
+      </div>
+      <h2 style="font-family:'Cinzel',serif; font-size:clamp(1.6rem,3vw,2.4rem); font-weight:700; letter-spacing:-0.02em; color:var(--off-white);">What Our Clients Say</h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;" class="t-grid">
+
+      <div class="t-card reveal" style="padding:36px;">
+        <div class="stars" style="margin-bottom:18px; font-size:0.9rem;">★★★★★</div>
+        <p style="font-size:0.83rem; line-height:1.88; color:rgba(245,240,232,0.62); margin-bottom:24px; font-style:italic;">"SLWorks completely transformed my 1968 Mustang. Their knowledge of classic cars is unmatched — they treated it like it was their own. Wouldn't trust anyone else."</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.18),rgba(200,169,106,0.06));border:1px solid rgba(200,169,106,0.2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;color:var(--gold);flex-shrink:0;">MR</div>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--off-white);">Michael R.</div>
+            <div style="font-size:0.7rem; color:rgba(245,240,232,0.38);">1968 Ford Mustang Owner</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card reveal" style="padding:36px; transition-delay:0.1s;">
+        <div class="stars" style="margin-bottom:18px; font-size:0.9rem;">★★★★★</div>
+        <p style="font-size:0.83rem; line-height:1.88; color:rgba(245,240,232,0.62); margin-bottom:24px; font-style:italic;">"Took my BMW M3 in for a full service and was thoroughly impressed. Detailed quote upfront, no surprises, and the car drives better than it has in years."</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.18),rgba(200,169,106,0.06));border:1px solid rgba(200,169,106,0.2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;color:var(--gold);flex-shrink:0;">SK</div>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--off-white);">Sarah K.</div>
+            <div style="font-size:0.7rem; color:rgba(245,240,232,0.38);">BMW M3 Owner</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-card reveal" style="padding:36px; transition-delay:0.2s;">
+        <div class="stars" style="margin-bottom:18px; font-size:0.9rem;">★★★★★</div>
+        <p style="font-size:0.83rem; line-height:1.88; color:rgba(245,240,232,0.62); margin-bottom:24px; font-style:italic;">"I've been coming to SLWorks for three years with my Porsche 911. Professional, honest, and genuinely passionate about cars. A rare find in London."</p>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,rgba(200,169,106,0.18),rgba(200,169,106,0.06));border:1px solid rgba(200,169,106,0.2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:0.72rem;font-weight:600;color:var(--gold);flex-shrink:0;">JT</div>
+          <div>
+            <div style="font-size:0.82rem; font-weight:600; color:var(--off-white);">James T.</div>
+            <div style="font-size:0.7rem; color:rgba(245,240,232,0.38);">Porsche 911 Owner</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ CONTACT ═══════════════════════ -->
+<section id="contact" style="padding:100px 24px; position:relative; overflow:hidden; background:linear-gradient(180deg,#1E1E1E 0%, #121212 100%);">
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 75% 65% at 50% 110%, rgba(200,169,106,0.08) 0%, transparent 70%);"></div>
+
+  <div style="max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start;" class="contact-grid">
+
+    <!-- Left text -->
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom:20px;">
+        <div class="divider-h"></div>
+        <span>Get in Touch</span>
+      </div>
+      <h2 style="font-family:'Cinzel',serif; font-size:clamp(1.5rem,2.8vw,2.3rem); font-weight:700; letter-spacing:-0.02em; color:var(--off-white); line-height:1.25; margin-bottom:20px;">
+        Ready to Give Your Car the Attention It Deserves?
+      </h2>
+      <p style="font-size:0.85rem; line-height:1.88; color:rgba(245,240,232,0.58); margin-bottom:44px;">
+        Book a service, request a quote, or simply ask a question. We respond to all enquiries promptly and are always happy to talk cars.
+      </p>
+
+      <!-- Contact details -->
+      <div style="display:flex; flex-direction:column; gap:22px;">
+
+        <div style="display:flex; align-items:center; gap:18px;">
+          <div class="icon-ring-sm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:3px;">Phone</div>
+            <a href="tel:+447894170922" style="font-size:0.85rem; font-weight:500; color:var(--off-white); text-decoration:none; transition:color 0.2s ease;" onmouseover="this.style.color='#C8A96A'" onmouseout="this.style.color='#F5F0E8'">+44 7894 170922</a>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:18px;">
+          <div class="icon-ring-sm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:3px;">Email</div>
+            <a href="mailto:info@slworks.co.uk" style="font-size:0.85rem; font-weight:500; color:var(--off-white); text-decoration:none; transition:color 0.2s ease;" onmouseover="this.style.color='#C8A96A'" onmouseout="this.style.color='#F5F0E8'">info@slworks.co.uk</a>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:18px;">
+          <div class="icon-ring-sm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:3px;">Location</div>
+            <span style="font-size:0.85rem; font-weight:500; color:var(--off-white);">London, United Kingdom</span>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:18px;">
+          <div class="icon-ring-sm">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.35); margin-bottom:3px;">Hours</div>
+            <span style="font-size:0.85rem; font-weight:500; color:var(--off-white);">Mon–Fri 8am–5pm &nbsp;·&nbsp; Sat 8am–12pm</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right form -->
+    <div class="reveal" style="transition-delay:0.12s;">
+      <form style="background:linear-gradient(145deg,#262626,#1E1E1E); border:1px solid rgba(200,169,106,0.12); box-shadow:0 20px 56px rgba(0,0,0,0.45); padding:44px;">
+
+        <h3 style="font-family:'Cinzel',serif; font-size:1.1rem; font-weight:600; color:var(--off-white); margin-bottom:28px;">Book a Service</h3>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
+          <div>
+            <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">First Name</label>
+            <input type="text" placeholder="John" class="form-input">
+          </div>
+          <div>
+            <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Last Name</label>
+            <input type="text" placeholder="Smith" class="form-input">
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Email Address</label>
+          <input type="email" placeholder="john@example.com" class="form-input">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Your Vehicle</label>
+          <input type="text" placeholder="Year, Make, Model — e.g. 1968 Ford Mustang" class="form-input">
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Service Required</label>
+          <select class="form-input" style="color:rgba(245,240,232,0.55);">
+            <option value="" style="background:#1A1A1A;">Select a service...</option>
+            <option value="diagnostic" style="background:#1A1A1A;">Engine Diagnostics</option>
+            <option value="restoration" style="background:#1A1A1A;">Classic Car Restoration</option>
+            <option value="maintenance" style="background:#1A1A1A;">Scheduled Maintenance</option>
+            <option value="brakes" style="background:#1A1A1A;">Brake &amp; Suspension</option>
+            <option value="transmission" style="background:#1A1A1A;">Transmission &amp; Gearbox</option>
+            <option value="electrical" style="background:#1A1A1A;">Electrical Systems</option>
+            <option value="other" style="background:#1A1A1A;">Other / Not Sure</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:28px;">
+          <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Message</label>
+          <textarea rows="4" placeholder="Tell us more about your vehicle or what you need help with..." class="form-input" style="resize:none;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%; text-align:center; cursor:pointer;">Send Enquiry</button>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer style="background:#0C0C0C; border-top:1px solid rgba(200,169,106,0.09);">
+  <div style="max-width:1280px; margin:0 auto; padding:48px 24px;">
+
+    <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:32px;">
+
+      <div>
+        <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SLWorks" style="height:52px; width:auto; margin-bottom:12px; display:block; opacity:0.9;">
+        <p style="font-size:0.72rem; line-height:1.7; color:rgba(245,240,232,0.3);">Mechanical Repairs &amp; Maintenance<br>Classic &amp; Modern Cars</p>
+      </div>
+
+      <div style="display:flex; gap:28px; flex-wrap:wrap;">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#testimonials" class="nav-link">Reviews</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+
+    </div>
+
+    <div class="divider-gold" style="margin:36px 0;"></div>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
+      <p style="font-size:0.7rem; color:rgba(245,240,232,0.22);">© 2025 SLWorks. All rights reserved.</p>
+      <p style="font-size:0.7rem; color:rgba(245,240,232,0.22);">London, United Kingdom</p>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-nav');
+    menu.classList.toggle('open');
+  }
+
+  // Reveal on scroll
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // Responsive: show/hide burger
+  function checkNav() {
+    const burger = document.getElementById('burger');
+    const desktopLinks = document.querySelector('.desktop-nav');
+    if (window.innerWidth < 768) {
+      burger.style.display = 'flex';
+    } else {
+      burger.style.display = 'none';
+      document.getElementById('mobile-nav').classList.remove('open');
+    }
+  }
+  checkNav();
+  window.addEventListener('resize', checkNav);
+
+  // Responsive grid fallbacks
+  function checkGrids() {
+    const w = window.innerWidth;
+    // About section grid
+    document.querySelectorAll('.about-grid').forEach(g => {
+      g.style.gridTemplateColumns = w < 1024 ? '1fr' : '1fr 1fr';
+      g.style.gap = w < 1024 ? '48px' : '80px';
+    });
+    // Contact grid
+    document.querySelectorAll('.contact-grid').forEach(g => {
+      g.style.gridTemplateColumns = w < 1024 ? '1fr' : '1fr 1fr';
+      g.style.gap = w < 1024 ? '48px' : '80px';
+    });
+    // Testimonials
+    document.querySelectorAll('.t-grid').forEach(g => {
+      g.style.gridTemplateColumns = w < 768 ? '1fr' : w < 1024 ? 'repeat(2,1fr)' : 'repeat(3,1fr)';
+    });
+    // Process
+    document.querySelectorAll('.process-grid').forEach(g => {
+      g.style.gridTemplateColumns = w < 768 ? 'repeat(2,1fr)' : 'repeat(4,1fr)';
+    });
+  }
+  checkGrids();
+  window.addEventListener('resize', checkGrids);
+</script>
+
+</body>
+</html>
