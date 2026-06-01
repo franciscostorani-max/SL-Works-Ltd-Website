@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SL Works Ltd — Flyer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C8A96A;
+      --gold-light: #E2C98A;
+      --gold-dark: #9A7A45;
+      --charcoal: #1A1A1A;
+      --off-white: #F5F0E8;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #2a2a2a;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .flyer {
+      width: 210mm;
+      min-height: 297mm;
+      background: var(--charcoal);
+      color: var(--off-white);
+      position: relative;
+      overflow: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── Hero band ── */
+    .hero {
+      position: relative;
+      height: 82mm;
+      background-image:
+        linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.75) 100%),
+        url('picture_gallery/Michele%20with%20F40.png');
+      background-size: cover;
+      background-position: center 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 32px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(to top, var(--charcoal), transparent);
+    }
+
+    .logo-wrap img {
+      height: 56px;
+      width: auto;
+      filter: drop-shadow(0 4px 16px rgba(200,169,106,0.3));
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-family: 'Cinzel', serif;
+      font-size: 8pt;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      text-align: center;
+    }
+
+    /* ── Mobile badge ── */
+    .mobile-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(200,169,106,0.1);
+      border-top: 1px solid rgba(200,169,106,0.3);
+      border-bottom: 1px solid rgba(200,169,106,0.3);
+      padding: 9px 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .mobile-badge span {
+      font-family: 'Cinzel', serif;
+      font-size: 7.5pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Body ── */
+    .body {
+      padding: 22px 28px 18px;
+    }
+
+    /* ── Intro ── */
+    .intro {
+      text-align: center;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(200,169,106,0.15);
+    }
+
+    .intro p {
+      font-size: 8.5pt;
+      line-height: 1.85;
+      color: rgba(245,240,232,0.7);
+      max-width: 150mm;
+      margin: 0 auto;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-label::before, .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,0.4));
+    }
+
+    .section-label::after {
+      background: linear-gradient(270deg, transparent, rgba(200,169,106,0.4));
+    }
+
+    .section-label span {
+      font-family: 'Cinzel', serif;
+      font-size: 6.5pt;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* ── Services grid ── */
+    .services {
+      margin-bottom: 22px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .service-item {
+      background: rgba(200,169,106,0.06);
+      border: 1px solid rgba(200,169,106,0.18);
+      padding: 10px 6px;
+      text-align: center;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .service-item svg {
+      display: block;
+      margin: 0 auto 7px;
+    }
+
+    .service-item p {
+      font-family: 'Cinzel', serif;
+      font-size: 6pt;
+      letter-spacing: 0.06em;
+      color: var(--off-white);
+      line-height: 1.5;
+    }
+
+    /* ── Why us ── */
+    .why {
+      margin-bottom: 22px;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .why-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+
+    .bullet {
+      width: 16px;
+      height: 16px;
+      border: 1px solid rgba(200,169,106,0.4);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .why-item p {
+      font-size: 7.5pt;
+      line-height: 1.65;
+      color: rgba(245,240,232,0.65);
+    }
+
+    .why-item strong {
+      color: var(--off-white);
+      font-weight: 600;
+      display: block;
+      font-size: 7.5pt;
+    }
+
+    /* ── Team strip ── */
+    .team-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .team-member {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(200,169,106,0.05);
+      border: 1px solid rgba(200,169,106,0.12);
+      padding: 10px 12px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .team-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      border: 1px solid rgba(200,169,106,0.3);
+      flex-shrink: 0;
+    }
+
+    .team-member h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 7pt;
+      font-weight: 600;
+      color: var(--off-white);
+      margin-bottom: 2px;
+    }
+
+    .team-member p {
+      font-size: 6.5pt;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Contact bar ── */
+    .contact-bar {
+      background: rgba(200,169,106,0.08);
+      border: 1px solid rgba(200,169,106,0.22);
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .contact-item {
+      text-align: center;
+    }
+
+    .contact-item .label {
+      font-family: 'Cinzel', serif;
+      font-size: 5.5pt;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .contact-item .value {
+      font-size: 8pt;
+      font-weight: 600;
+      color: var(--off-white);
+    }
+
+    /* ── Footer strip ── */
+    .footer-strip {
+      text-align: center;
+      padding: 12px;
+      border-top: 1px solid rgba(200,169,106,0.12);
+    }
+
+    .footer-strip p {
+      font-family: 'Cinzel', serif;
+      font-size: 6pt;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+    }
+
+    /* ── Gold gradient text ── */
+    .text-gold {
+      background: linear-gradient(135deg, #E2C98A 0%, #C8A96A 50%, #9A7A45 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { background: none; padding: 0; margin: 0; }
+      .flyer { width: 210mm; min-height: 297mm; page-break-inside: avoid; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    /* ── Print button (screen only) ── */
+    .print-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--gold);
+      color: #1A1A1A;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      padding: 14px 28px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(200,169,106,0.4);
+      transition: transform 0.2s ease;
+    }
+    .print-btn:hover { transform: translateY(-2px); }
+    @media print { .print-btn { display: none; } }
+  </style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+
+<div class="flyer">
+
+  <!-- Hero photo band -->
+  <div class="hero">
+    <div class="logo-wrap" style="text-align:center;">
+      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Ltd">
+    </div>
+    <p class="tagline">Where Craftsmanship Meets Precision</p>
+  </div>
+
+  <!-- Mobile service badge -->
+  <div class="mobile-badge">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/><rect x="9" y="11" width="14" height="10" rx="1"/></svg>
+    <span>Fully Mobile Service — We Come To You · London & Surrounding Areas</span>
+  </div>
+
+  <div class="body">
+
+    <!-- Intro -->
+    <div class="intro">
+      <p>SL Works Ltd is a specialist mobile mechanic service bringing expert car care directly to your door. Whether you need a quick health check or a comprehensive service, our team of highly experienced technicians comes to your home, workplace, or wherever your car is — no garage drop-off required.</p>
+    </div>
+
+    <!-- Services -->
+    <div class="services">
+      <div class="section-label"><span>Our Services</span></div>
+      <div class="services-grid">
+
+        <div class="service-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+          <p>Engine<br>Diagnostics</p>
+        </div>
+
+        <div class="service-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <p>Full<br>Checkover</p>
+        </div>
+
+        <div class="service-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <p>Interim<br>Service</p>
+        </div>
+
+        <div class="service-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+          </svg>
+          <p>Full<br>Service</p>
+        </div>
+
+        <div class="service-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <p>Major<br>Service</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Why us -->
+    <div class="why">
+      <div class="section-label"><span>Why Choose SL Works</span></div>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>30+ Years Combined Experience</strong>Trained specialists in classic and performance vehicles</p>
+        </div>
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>We Come To You</strong>At home, at work, or wherever your vehicle is</p>
+        </div>
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>Transparent Pricing</strong>Detailed itemised quote before any work begins</p>
+        </div>
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>Prestige Marque Specialists</strong>Ferrari, Aston Martin, McLaren, Lamborghini & more</p>
+        </div>
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>Heritage Skills Trained</strong>Brooklands Academy certified restoration expertise</p>
+        </div>
+        <div class="why-item">
+          <div class="bullet">
+            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 2.5" stroke="#C8A96A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p><strong>All Makes & Models</strong>Classic, modern, and high-performance vehicles</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team strip -->
+    <div>
+      <div class="section-label"><span>Meet The Team</span></div>
+      <div class="team-strip">
+        <div class="team-member">
+          <img class="team-avatar" src="Team%20Pictures/IMG_5293.jpg" alt="Michele Liggieri">
+          <div>
+            <h4>Michele Liggieri</h4>
+            <p>Classic & Performance Specialist · 30+ yrs</p>
+          </div>
+        </div>
+        <div class="team-member">
+          <img class="team-avatar" src="Team%20Pictures/IMG_5292.jpg" alt="Francisco Storani">
+          <div>
+            <h4>Francisco Storani</h4>
+            <p>Co-Founder & Classic Vehicle Technician</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact bar -->
+    <div class="contact-bar">
+      <div class="contact-item">
+        <span class="label">Phone</span>
+        <span class="value">+44 7894 170922</span>
+      </div>
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <span class="value">info@slworks.co.uk</span>
+      </div>
+      <div class="contact-item">
+        <span class="label">Website</span>
+        <span class="value">sl-works.co.uk</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-strip">
+    <p>SL Works Ltd &nbsp;·&nbsp; Mobile Mechanic &nbsp;·&nbsp; London, United Kingdom</p>
+  </div>
+
+</div>
+
+</body>
+</html>
