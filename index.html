@@ -784,47 +784,53 @@
 
     <!-- Right form -->
     <div class="reveal" style="transition-delay:0.12s;">
-      <form style="background:linear-gradient(145deg,#262626,#1E1E1E); border:1px solid rgba(200,169,106,0.12); box-shadow:0 20px 56px rgba(0,0,0,0.45); padding:44px;">
+      <form action="https://formsubmit.co/info@slworks.co.uk" method="POST" style="background:linear-gradient(145deg,#262626,#1E1E1E); border:1px solid rgba(200,169,106,0.12); box-shadow:0 20px 56px rgba(0,0,0,0.45); padding:44px;">
+
+        <!-- Formsubmit config -->
+        <input type="hidden" name="_subject" value="New Service Enquiry — SL Works">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://sl-works.co.uk?submitted=true">
+        <input type="text" name="_honey" style="display:none;">
 
         <h3 style="font-family:'Cinzel',serif; font-size:1.1rem; font-weight:600; color:var(--off-white); margin-bottom:28px;">Book a Service</h3>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
           <div>
             <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">First Name</label>
-            <input type="text" placeholder="John" class="form-input">
+            <input type="text" name="first_name" placeholder="John" class="form-input" required>
           </div>
           <div>
             <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Last Name</label>
-            <input type="text" placeholder="Smith" class="form-input">
+            <input type="text" name="last_name" placeholder="Smith" class="form-input" required>
           </div>
         </div>
 
         <div style="margin-bottom:14px;">
           <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Email Address</label>
-          <input type="email" placeholder="john@example.com" class="form-input">
+          <input type="email" name="email" placeholder="john@example.com" class="form-input" required>
         </div>
 
         <div style="margin-bottom:14px;">
           <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Your Vehicle</label>
-          <input type="text" placeholder="Year, Make, Model — e.g. 1968 Ford Mustang" class="form-input">
+          <input type="text" name="vehicle" placeholder="Year, Make, Model — e.g. 2019 BMW 3 Series" class="form-input">
         </div>
 
         <div style="margin-bottom:14px;">
           <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Service Required</label>
-          <select class="form-input" style="color:rgba(245,240,232,0.55);">
+          <select name="service" class="form-input" style="color:rgba(245,240,232,0.55);">
             <option value="" style="background:#1A1A1A;">Select a service...</option>
-            <option value="diagnostics" style="background:#1A1A1A;">Engine Diagnostics</option>
-            <option value="checkover" style="background:#1A1A1A;">Full Checkover</option>
-            <option value="interim" style="background:#1A1A1A;">Interim Service</option>
-            <option value="full" style="background:#1A1A1A;">Full Service</option>
-            <option value="major" style="background:#1A1A1A;">Major Service</option>
-            <option value="other" style="background:#1A1A1A;">Other / Not Sure</option>
+            <option value="Engine Diagnostics" style="background:#1A1A1A;">Engine Diagnostics</option>
+            <option value="Full Checkover" style="background:#1A1A1A;">Full Checkover</option>
+            <option value="Interim Service" style="background:#1A1A1A;">Interim Service</option>
+            <option value="Full Service" style="background:#1A1A1A;">Full Service</option>
+            <option value="Major Service" style="background:#1A1A1A;">Major Service</option>
+            <option value="Other / Not Sure" style="background:#1A1A1A;">Other / Not Sure</option>
           </select>
         </div>
 
         <div style="margin-bottom:28px;">
           <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Message</label>
-          <textarea rows="4" placeholder="Tell us more about your vehicle or what you need help with..." class="form-input" style="resize:none;"></textarea>
+          <textarea rows="4" name="message" placeholder="Tell us more about your vehicle or what you need help with..." class="form-input" style="resize:none;"></textarea>
         </div>
 
         <button type="submit" class="btn-primary" style="width:100%; text-align:center; cursor:pointer;">Send Enquiry</button>
