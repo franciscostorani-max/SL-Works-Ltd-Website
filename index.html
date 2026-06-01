@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SLWorks — Classic & Modern Car Mechanical Repairs</title>
+  <!-- Google Ads conversion tracking — replace AW-XXXXXXXXX and CONVERSION_LABEL with your values from Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-XXXXXXXXX');
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
@@ -805,12 +813,11 @@
           <label style="display:block; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(245,240,232,0.42); margin-bottom:8px;">Service Required</label>
           <select class="form-input" style="color:rgba(245,240,232,0.55);">
             <option value="" style="background:#1A1A1A;">Select a service...</option>
-            <option value="diagnostic" style="background:#1A1A1A;">Engine Diagnostics</option>
-            <option value="restoration" style="background:#1A1A1A;">Classic Car Restoration</option>
-            <option value="maintenance" style="background:#1A1A1A;">Scheduled Maintenance</option>
-            <option value="brakes" style="background:#1A1A1A;">Brake &amp; Suspension</option>
-            <option value="transmission" style="background:#1A1A1A;">Transmission &amp; Gearbox</option>
-            <option value="electrical" style="background:#1A1A1A;">Electrical Systems</option>
+            <option value="diagnostics" style="background:#1A1A1A;">Engine Diagnostics</option>
+            <option value="checkover" style="background:#1A1A1A;">Full Checkover</option>
+            <option value="interim" style="background:#1A1A1A;">Interim Service</option>
+            <option value="full" style="background:#1A1A1A;">Full Service</option>
+            <option value="major" style="background:#1A1A1A;">Major Service</option>
             <option value="other" style="background:#1A1A1A;">Other / Not Sure</option>
           </select>
         </div>
@@ -823,6 +830,11 @@
         <button type="submit" class="btn-primary" style="width:100%; text-align:center; cursor:pointer;">Send Enquiry</button>
 
       </form>
+      <script>
+        document.querySelector('form').addEventListener('submit', function() {
+          gtag('event', 'conversion', { 'send_to': 'AW-XXXXXXXXX/CONVERSION_LABEL' });
+        });
+      </script>
     </div>
 
   </div>
