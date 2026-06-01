@@ -276,11 +276,44 @@
       border: 1px solid rgba(200,169,106,0.22);
       padding: 10px 14px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
       margin-bottom: 10px;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
+    }
+
+    .contact-details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding-left: 10px;
+      border-left: 1px solid rgba(200,169,106,0.2);
+    }
+
+    .qr-wrap img {
+      width: 56px;
+      height: 56px;
+      display: block;
+      background: #fff;
+      padding: 3px;
+    }
+
+    .qr-wrap span {
+      font-family: 'Cinzel', serif;
+      font-size: 5pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.35);
+      text-align: center;
     }
 
     .contact-item {
@@ -492,17 +525,23 @@
 
     <!-- Contact bar -->
     <div class="contact-bar">
-      <div class="contact-item">
-        <span class="label">Phone</span>
-        <span class="value">+44 7894 170922</span>
+      <div class="contact-details">
+        <div class="contact-item">
+          <span class="label">Phone</span>
+          <span class="value">+44 7894 170922</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">Email</span>
+          <span class="value">info@slworks.co.uk</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">Website</span>
+          <span class="value">sl-works.co.uk</span>
+        </div>
       </div>
-      <div class="contact-item">
-        <span class="label">Email</span>
-        <span class="value">info@slworks.co.uk</span>
-      </div>
-      <div class="contact-item">
-        <span class="label">Website</span>
-        <span class="value">sl-works.co.uk</span>
+      <div class="qr-wrap">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://sl-works.co.uk&bgcolor=ffffff&color=1A1A1A&margin=2" alt="Scan to visit sl-works.co.uk">
+        <span>Scan to visit</span>
       </div>
     </div>
 
