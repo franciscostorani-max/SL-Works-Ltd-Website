@@ -75,17 +75,37 @@
     /* ── Hero band ── */
     .hero {
       position: relative;
-      height: 86mm; /* taller to fit logo + tagline without overlap */
-      background-image:
-        linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.75) 100%),
-        url('picture_gallery/Michele%20with%20F40.png');
-      background-size: cover;
-      background-position: center 30%;
+      height: 86mm;
+      background: #1A1A1A;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: calc(3mm + 16px) calc(3mm + 28px) 16px;
+      overflow: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Real <img> for the hero photo — CSS background-image doesn't print reliably */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      z-index: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Gradient overlay on top of the photo */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.75) 100%);
+      z-index: 1;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -96,6 +116,14 @@
       bottom: 0; left: 0; right: 0;
       height: 40px;
       background: linear-gradient(to top, var(--charcoal), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .logo-wrap img {
@@ -455,10 +483,17 @@
 
   <!-- Hero photo band -->
   <div class="hero">
-    <div class="logo-wrap" style="text-align:center;">
-      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Ltd">
+    <!-- Real img so background prints reliably in PDF -->
+    <img class="hero-bg" src="picture_gallery/Michele%20with%20F40.png" alt="">
+    <div class="hero-overlay"></div>
+    <!-- Bottom fade -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top,#1A1A1A,transparent);z-index:1;"></div>
+    <div class="hero-content">
+      <div class="logo-wrap" style="text-align:center;">
+        <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Ltd">
+      </div>
+      <p class="tagline">Where Craftsmanship Meets Precision</p>
     </div>
-    <p class="tagline">Where Craftsmanship Meets Precision</p>
   </div>
 
   <!-- Mobile service badge -->
