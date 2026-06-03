@@ -35,30 +35,51 @@
       line-height: 1.6;
     }
 
-    /* ── Outer print document: A5 + 3mm bleed = 154mm × 216mm ── */
+    /* ── Crop wrapper: white surround gives crop marks visible space ── */
+    /* wrapper = 174mm × 236mm (print-doc + 10mm margin each side)   */
+    .crop-wrapper {
+      width: 174mm;
+      height: 236mm;
+      position: relative;
+      background: #ffffff;
+      flex-shrink: 0;
+    }
+
+    /* ── Print document: A5 + 3mm bleed = 154mm × 216mm ── */
+    /* Positioned 10mm from each edge of the wrapper             */
     .print-doc {
+      position: absolute;
+      top: 10mm;
+      left: 10mm;
       width: 154mm;
       height: 216mm;
-      position: relative;
       background: var(--charcoal);
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
-      overflow: visible; /* allow crop marks to extend outside */
+      overflow: hidden;
     }
 
     /* ── Crop marks ── */
-    /* Each corner: one horizontal + one vertical line, 5mm long, 1mm gap from trim edge */
-    .crop-marks {
-      position: absolute;
-      inset: 0;
-      z-index: 10;
-      pointer-events: none;
-    }
+    /* Trim lines are at 13mm from wrapper edge (10mm margin + 3mm bleed) */
+    /* Each mark is 5mm long, starting 1mm outside the document edge      */
+    .cm { position: absolute; background: #000; }
+    /* Horizontal marks */
+    .cm-h { height: 0.4pt; width: 5mm; }
+    /* Vertical marks */
+    .cm-v { width: 0.4pt; height: 5mm; }
 
-    .crop-marks line {
-      stroke: #000;
-      stroke-width: 0.25pt;
-    }
+    /* Top-left */
+    .cm-tl-h { top: 13mm; left: 4mm; }   /* extends left  */
+    .cm-tl-v { top: 4mm;  left: 13mm; }  /* extends up    */
+    /* Top-right */
+    .cm-tr-h { top: 13mm; left: 165mm; } /* extends right */
+    .cm-tr-v { top: 4mm;  left: 161mm; } /* extends up    */
+    /* Bottom-left */
+    .cm-bl-h { top: 223mm; left: 4mm; }   /* extends left  */
+    .cm-bl-v { top: 227mm; left: 13mm; }  /* extends down  */
+    /* Bottom-right */
+    .cm-br-h { top: 223mm; left: 165mm; } /* extends right */
+    .cm-br-v { top: 227mm; left: 161mm; } /* extends down  */
 
     /* ── Flyer artwork fills full bleed document ── */
     .flyer {
@@ -328,9 +349,8 @@
     @media print {
       body { background: none; padding: 0; margin: 0; }
       .info, .print-btn { display: none !important; }
-      .print-doc { width: 154mm; height: 216mm; }
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      @page { size: 154mm 216mm; margin: 0; }
+      @page { size: 174mm 236mm; margin: 0; }
     }
 
     /* ── Print button ── */
@@ -355,32 +375,23 @@
 
 <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
 
+<div class="crop-wrapper">
+
+  <!-- ── Crop marks (8 divs, 2 per corner) ── -->
+  <!-- Top-left -->
+  <div class="cm cm-h cm-tl-h"></div>
+  <div class="cm cm-v cm-tl-v"></div>
+  <!-- Top-right -->
+  <div class="cm cm-h cm-tr-h"></div>
+  <div class="cm cm-v cm-tr-v"></div>
+  <!-- Bottom-left -->
+  <div class="cm cm-h cm-bl-h"></div>
+  <div class="cm cm-v cm-bl-v"></div>
+  <!-- Bottom-right -->
+  <div class="cm cm-h cm-br-h"></div>
+  <div class="cm cm-v cm-br-v"></div>
+
 <div class="print-doc">
-
-  <!-- ── Crop marks SVG ── -->
-  <!-- Trim lines at x=3mm, x=151mm, y=3mm, y=213mm -->
-  <!-- Marks are 5mm long with 1mm gap from bleed edge -->
-  <svg class="crop-marks" viewBox="0 0 154 216" xmlns="http://www.w3.org/2000/svg"
-       style="position:absolute;inset:0;width:154mm;height:216mm;overflow:visible;">
-
-    <!-- Top-left corner -->
-    <line x1="-4" y1="3" x2="2" y2="3" stroke="#000" stroke-width="0.3"/>  <!-- horizontal left -->
-    <line x1="3" y1="-4" x2="3" y2="2" stroke="#000" stroke-width="0.3"/>  <!-- vertical up -->
-
-    <!-- Top-right corner -->
-    <line x1="152" y1="3" x2="158" y2="3" stroke="#000" stroke-width="0.3"/>  <!-- horizontal right -->
-    <line x1="151" y1="-4" x2="151" y2="2" stroke="#000" stroke-width="0.3"/> <!-- vertical up -->
-
-    <!-- Bottom-left corner -->
-    <line x1="-4" y1="213" x2="2" y2="213" stroke="#000" stroke-width="0.3"/>  <!-- horizontal left -->
-    <line x1="3" y1="214" x2="3" y2="220" stroke="#000" stroke-width="0.3"/>   <!-- vertical down -->
-
-    <!-- Bottom-right corner -->
-    <line x1="152" y1="213" x2="158" y2="213" stroke="#000" stroke-width="0.3"/>  <!-- horizontal right -->
-    <line x1="151" y1="214" x2="151" y2="220" stroke="#000" stroke-width="0.3"/>  <!-- vertical down -->
-
-  </svg>
-
   <!-- ── Flyer artwork (fills full bleed area) ── -->
   <div class="flyer">
 
@@ -532,6 +543,7 @@
   </div><!-- /flyer -->
 
 </div><!-- /print-doc -->
+</div><!-- /crop-wrapper -->
 
 </body>
 </html>
