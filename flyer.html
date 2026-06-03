@@ -28,7 +28,8 @@
 
     .flyer {
       width: 148mm;
-      min-height: 210mm;
+      height: 210mm;
+      overflow: hidden;
       background: var(--charcoal);
       color: var(--off-white);
       position: relative;
@@ -40,7 +41,7 @@
     /* ── Hero band ── */
     .hero {
       position: relative;
-      height: 100mm;
+      height: 54mm;
       background-image:
         linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.75) 100%),
         url('picture_gallery/Michele%20with%20F40.png');
@@ -64,10 +65,10 @@
     }
 
     .logo-wrap img {
-      height: 216px;
+      height: 82px;
       width: auto;
       filter: drop-shadow(0 8px 36px rgba(200,169,106,0.5)) drop-shadow(0 2px 10px rgba(0,0,0,0.8));
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .tagline {
@@ -88,7 +89,7 @@
       background: rgba(200,169,106,0.1);
       border-top: 1px solid rgba(200,169,106,0.3);
       border-bottom: 1px solid rgba(200,169,106,0.3);
-      padding: 9px 0;
+      padding: 5px 0;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -103,20 +104,20 @@
 
     /* ── Body ── */
     .body {
-      padding: 14px 12px 12px;
+      padding: 8px 12px 8px;
     }
 
     /* ── Intro ── */
     .intro {
       text-align: center;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
       border-bottom: 1px solid rgba(200,169,106,0.15);
     }
 
     .intro p {
-      font-size: 12.4pt;
-      line-height: 1.7;
+      font-size: 8.5pt;
+      line-height: 1.6;
       color: rgba(245,240,232,0.7);
       max-width: 100%;
       letter-spacing: 0.01em;
@@ -128,7 +129,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 6px;
     }
 
     .section-label::before, .section-label::after {
@@ -153,7 +154,7 @@
 
     /* ── Services grid ── */
     .services {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .services-grid {
@@ -165,7 +166,7 @@
     .service-item {
       background: rgba(200,169,106,0.09);
       border: 1px solid rgba(200,169,106,0.3);
-      padding: 14px 6px 12px;
+      padding: 10px 5px 8px;
       text-align: center;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -189,13 +190,13 @@
 
     /* ── Why us ── */
     .why {
-      margin-bottom: 12px;
+      margin-bottom: 7px;
     }
 
     .why-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px;
+      gap: 4px;
     }
 
     .why-item {
@@ -234,7 +235,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5px;
-      margin-bottom: 12px;
+      margin-bottom: 7px;
     }
 
     .team-member {
@@ -276,7 +277,7 @@
     .contact-bar {
       background: rgba(200,169,106,0.08);
       border: 1px solid rgba(200,169,106,0.22);
-      padding: 10px 14px;
+      padding: 7px 12px;
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 10px;
