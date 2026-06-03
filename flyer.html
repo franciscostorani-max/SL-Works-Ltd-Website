@@ -27,15 +27,28 @@
     }
 
     .flyer {
-      width: 148mm;
-      height: 210mm;
+      width: 154mm;
+      height: 216mm;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       background: var(--charcoal);
       color: var(--off-white);
       position: relative;
-      overflow: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* ── Trim / crop line at 148×210mm (3mm from each edge) ── */
+    .trim-line {
+      position: absolute;
+      top: 3mm;
+      left: 3mm;
+      right: 3mm;
+      bottom: 3mm;
+      border: 0.25pt solid rgba(255,255,255,0.85);
+      pointer-events: none;
+      z-index: 50;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -43,7 +56,7 @@
     /* ── Hero band ── */
     .hero {
       position: relative;
-      height: 74mm;
+      height: 77mm; /* 74mm + 3mm top bleed */
       background-image:
         linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 40%, rgba(10,10,10,0.75) 100%),
         url('picture_gallery/Michele%20with%20F40.png');
@@ -53,7 +66,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 28px 32px;
+      padding: calc(3mm + 16px) calc(3mm + 28px) 16px;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -92,7 +105,7 @@
       background: rgba(200,169,106,0.1);
       border-top: 1px solid rgba(200,169,106,0.3);
       border-bottom: 1px solid rgba(200,169,106,0.3);
-      padding: 5px 0;
+      padding: 5px calc(3mm + 6px);
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -107,7 +120,7 @@
 
     /* ── Body ── */
     .body {
-      padding: 8px 12px;
+      padding: 8px calc(3mm + 10px);
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -350,7 +363,7 @@
     /* ── Footer strip ── */
     .footer-strip {
       text-align: center;
-      padding: 12px;
+      padding: 8px calc(3mm + 10px) calc(3mm + 6px);
       border-top: 1px solid rgba(200,169,106,0.12);
     }
 
@@ -373,9 +386,9 @@
     /* ── Print ── */
     @media print {
       body { background: none; padding: 0; margin: 0; }
-      .flyer { width: 148mm; min-height: 210mm; page-break-inside: avoid; }
+      .flyer { width: 154mm; height: 216mm; page-break-inside: avoid; }
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      @page { size: A5 portrait; margin: 0; }
+      @page { size: 154mm 216mm; margin: 0; }
     }
 
     /* ── Print button (screen only) ── */
@@ -405,6 +418,9 @@
 <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
 
 <div class="flyer">
+
+  <!-- Trim / crop line at 148×210mm -->
+  <div class="trim-line"></div>
 
   <!-- Hero photo band -->
   <div class="hero">
