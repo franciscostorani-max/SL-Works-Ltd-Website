@@ -35,51 +35,31 @@
       line-height: 1.6;
     }
 
-    /* ── Crop wrapper: white surround gives crop marks visible space ── */
-    /* wrapper = 174mm × 236mm (print-doc + 10mm margin each side)   */
-    .crop-wrapper {
-      width: 174mm;
-      height: 236mm;
-      position: relative;
-      background: #888888;
-      flex-shrink: 0;
-    }
-
-    /* ── Print document: A5 + 3mm bleed = 154mm × 216mm ── */
-    /* Positioned 10mm from each edge of the wrapper             */
+    /* ── Document: 154mm × 216mm (A5 + 3mm bleed all sides) ── */
     .print-doc {
-      position: absolute;
-      top: 10mm;
-      left: 10mm;
       width: 154mm;
       height: 216mm;
+      position: relative;
       background: var(--charcoal);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
-      overflow: hidden;
     }
 
-    /* ── Crop marks ── */
-    /* Trim lines are at 13mm from wrapper edge (10mm margin + 3mm bleed) */
-    /* Each mark is 5mm long, starting 1mm outside the document edge      */
-    .cm { position: absolute; background: #ffffff; }
-    /* Horizontal marks */
-    .cm-h { height: 1px; width: 5mm; }
-    /* Vertical marks */
-    .cm-v { width: 1px; height: 5mm; }
-
-    /* Top-left */
-    .cm-tl-h { top: 13mm; left: 4mm; }   /* extends left  */
-    .cm-tl-v { top: 4mm;  left: 13mm; }  /* extends up    */
-    /* Top-right */
-    .cm-tr-h { top: 13mm; left: 165mm; } /* extends right */
-    .cm-tr-v { top: 4mm;  left: 161mm; } /* extends up    */
-    /* Bottom-left */
-    .cm-bl-h { top: 223mm; left: 4mm; }   /* extends left  */
-    .cm-bl-v { top: 227mm; left: 13mm; }  /* extends down  */
-    /* Bottom-right */
-    .cm-br-h { top: 223mm; left: 165mm; } /* extends right */
-    .cm-br-v { top: 227mm; left: 161mm; } /* extends down  */
+    /* ── White crop/trim indicator line at 3mm from each edge ── */
+    .trim-line {
+      position: absolute;
+      top: 3mm;
+      left: 3mm;
+      right: 3mm;
+      bottom: 3mm;
+      border: 0.6px solid rgba(255,255,255,0.75);
+      pointer-events: none;
+      z-index: 50;
+    }
 
     /* ── Flyer artwork fills full bleed document ── */
     .flyer {
@@ -92,7 +72,7 @@
       print-color-adjust: exact;
     }
 
-    /* ── Hero: extends full width, slightly taller to cover bleed ── */
+    /* ── Hero: covers full bleed at top/sides, logo centred in trim area ── */
     .hero {
       position: relative;
       height: 77mm; /* 74mm content + 3mm top bleed */
@@ -105,8 +85,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      /* Top padding includes 3mm bleed offset so logo sits correctly */
-      padding: calc(3mm + 20px) 35mm 20px;
+      padding: calc(3mm + 16px) calc(3mm + 28px) 16px;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -145,7 +124,7 @@
       background: rgba(200,169,106,0.1);
       border-top: 1px solid rgba(200,169,106,0.3);
       border-bottom: 1px solid rgba(200,169,106,0.3);
-      padding: 5px 3mm; /* 3mm side padding = left bleed */
+      padding: 5px calc(3mm + 6px);
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
@@ -158,9 +137,9 @@
       color: var(--gold);
     }
 
-    /* ── Body: padded 3mm each side + original 12px ── */
+    /* ── Body: 3mm bleed offset + content padding ── */
     .body {
-      padding: 8px calc(12px + 3mm);
+      padding: 8px calc(3mm + 10px);
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -332,10 +311,10 @@
 
     .contact-item .value { font-size: 6.5pt; font-weight: 600; color: var(--off-white); }
 
-    /* ── Footer: extends to bottom bleed ── */
+    /* ── Footer: content above bottom bleed ── */
     .footer-strip {
       text-align: center;
-      padding: 10px 3mm calc(3mm + 8px);
+      padding: 8px calc(3mm + 10px) calc(3mm + 6px);
       border-top: 1px solid rgba(200,169,106,0.12);
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -351,7 +330,7 @@
       body { background: none; padding: 0; margin: 0; }
       .info, .print-btn { display: none !important; }
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      @page { size: 174mm 236mm; margin: 0; }
+      @page { size: 154mm 216mm; margin: 0; }
     }
 
     /* ── Print button ── */
@@ -376,23 +355,11 @@
 
 <button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
 
-<div class="crop-wrapper">
-
-  <!-- ── Crop marks (8 divs, 2 per corner) ── -->
-  <!-- Top-left -->
-  <div class="cm cm-h cm-tl-h"></div>
-  <div class="cm cm-v cm-tl-v"></div>
-  <!-- Top-right -->
-  <div class="cm cm-h cm-tr-h"></div>
-  <div class="cm cm-v cm-tr-v"></div>
-  <!-- Bottom-left -->
-  <div class="cm cm-h cm-bl-h"></div>
-  <div class="cm cm-v cm-bl-v"></div>
-  <!-- Bottom-right -->
-  <div class="cm cm-h cm-br-h"></div>
-  <div class="cm cm-v cm-br-v"></div>
-
 <div class="print-doc">
+
+  <!-- ── White trim/crop indicator at 3mm from each edge ── -->
+  <div class="trim-line"></div>
+
   <!-- ── Flyer artwork (fills full bleed area) ── -->
   <div class="flyer">
 
@@ -544,7 +511,6 @@
   </div><!-- /flyer -->
 
 </div><!-- /print-doc -->
-</div><!-- /crop-wrapper -->
 
 </body>
 </html>
