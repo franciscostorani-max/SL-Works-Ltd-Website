@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SL Works — T-Shirt Logo Print</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      gap: 40px;
+      font-family: sans-serif;
+    }
+
+    .label {
+      color: #888;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    /* ── Black t-shirt preview ── */
+    .tshirt-preview {
+      width: 420px;
+      background: #000;
+      border-radius: 4px;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    .tshirt-preview img {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      filter: brightness(2.4) contrast(1.3) saturate(2.2);
+      display: block;
+    }
+
+    /* ── Print export block (white bg, no filter so printer gets raw enhanced) ── */
+    .print-block {
+      background: #000;
+      padding: 40px;
+      width: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .print-block img {
+      width: 340px;
+      height: auto;
+      filter: brightness(2.4) contrast(1.3) saturate(2.2);
+    }
+
+    .btn {
+      background: #C8A96A;
+      color: #000;
+      border: none;
+      padding: 14px 32px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+
+    .note {
+      color: #555;
+      font-size: 11px;
+      text-align: center;
+      max-width: 400px;
+      line-height: 1.7;
+    }
+
+    @media print {
+      body { background: none; padding: 0; }
+      .label, .btn, .note, .tshirt-preview { display: none !important; }
+      .print-block {
+        background: #000 !important;
+        width: 200mm;
+        padding: 20mm;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .print-block img {
+        width: 160mm;
+        filter: brightness(2.4) contrast(1.3) saturate(2.2);
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      @page { size: A4 portrait; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preview on black shirt -->
+  <div>
+    <p class="label">Preview on black fabric</p>
+    <div class="tshirt-preview">
+      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Logo">
+    </div>
+  </div>
+
+  <!-- Print export -->
+  <div>
+    <p class="label">Export for printer (click Print / Save as PDF)</p>
+    <div class="print-block">
+      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Logo">
+    </div>
+  </div>
+
+  <button class="btn" onclick="window.print()">Save as PDF / Send to Printer</button>
+
+  <p class="note">
+    Send the saved PDF to your t-shirt printer and specify:<br>
+    • Print method: DTG (Direct to Garment) or Screen Print<br>
+    • Garment: Black t-shirt<br>
+    • Placement: Centre chest, approx 25–28cm wide<br>
+    • Background: Black (blends with shirt — do not add white underbase unless your printer requires it)
+  </p>
+
+</body>
+</html>
