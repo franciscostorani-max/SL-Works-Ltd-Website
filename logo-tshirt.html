@@ -11,64 +11,108 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       padding: 40px 20px;
-      gap: 40px;
-      font-family: sans-serif;
+      gap: 32px;
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #C8A96A;
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
     }
 
     .label {
-      color: #888;
-      font-size: 11px;
-      letter-spacing: 0.2em;
+      color: #666;
+      font-size: 10px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    /* ── Black t-shirt preview ── */
-    .tshirt-preview {
-      width: 420px;
-      background: #000;
-      border-radius: 4px;
-      padding: 60px 40px;
+    /* Previews */
+    .previews {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .preview-box {
       display: flex;
       flex-direction: column;
       align-items: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      gap: 8px;
     }
 
-    .tshirt-preview img {
-      width: 100%;
-      max-width: 340px;
-      height: auto;
-      filter: brightness(2.4) contrast(1.3) saturate(2.2);
-      display: block;
-    }
-
-    /* ── Print export block (white bg, no filter so printer gets raw enhanced) ── */
-    .print-block {
-      background: #000;
-      padding: 40px;
-      width: 420px;
+    .preview-canvas-wrap {
+      padding: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .print-block img {
-      width: 340px;
-      height: auto;
-      filter: brightness(2.4) contrast(1.3) saturate(2.2);
+    .bg-black { background: #000; }
+    .bg-white { background: #fff; }
+    .bg-check {
+      background-image: repeating-conic-gradient(#aaa 0% 25%, #fff 0% 50%);
+      background-size: 16px 16px;
     }
+
+    canvas { display: block; max-width: 320px; }
+
+    /* Controls */
+    .controls {
+      background: #222;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .control-row label {
+      color: #999;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      width: 140px;
+    }
+
+    input[type=range] {
+      flex: 1;
+      accent-color: #C8A96A;
+    }
+
+    .val {
+      color: #C8A96A;
+      font-size: 11px;
+      font-weight: bold;
+      width: 34px;
+      text-align: right;
+    }
+
+    /* Buttons */
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
     .btn {
       background: #C8A96A;
       color: #000;
       border: none;
-      padding: 14px 32px;
-      font-size: 12px;
+      padding: 13px 28px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -76,62 +120,192 @@
       transition: opacity 0.2s;
     }
     .btn:hover { opacity: 0.85; }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid #C8A96A;
+      color: #C8A96A;
+    }
 
     .note {
       color: #555;
       font-size: 11px;
       text-align: center;
-      max-width: 400px;
-      line-height: 1.7;
-    }
-
-    @media print {
-      body { background: none; padding: 0; }
-      .label, .btn, .note, .tshirt-preview { display: none !important; }
-      .print-block {
-        background: #000 !important;
-        width: 200mm;
-        padding: 20mm;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .print-block img {
-        width: 160mm;
-        filter: brightness(2.4) contrast(1.3) saturate(2.2);
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      @page { size: A4 portrait; margin: 0; }
+      max-width: 440px;
+      line-height: 1.75;
     }
   </style>
 </head>
 <body>
 
-  <!-- Preview on black shirt -->
-  <div>
-    <p class="label">Preview on black fabric</p>
-    <div class="tshirt-preview">
-      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Logo">
+<h1>SL Works — T-Shirt Logo</h1>
+
+<div class="previews">
+  <div class="preview-box">
+    <p class="label">On Black (t-shirt)</p>
+    <div class="preview-canvas-wrap bg-black" style="width:320px;height:220px;">
+      <canvas id="cvBlack"></canvas>
     </div>
   </div>
-
-  <!-- Print export -->
-  <div>
-    <p class="label">Export for printer (click Print / Save as PDF)</p>
-    <div class="print-block">
-      <img src="brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG" alt="SL Works Logo">
+  <div class="preview-box">
+    <p class="label">On White</p>
+    <div class="preview-canvas-wrap bg-white" style="width:320px;height:220px;">
+      <canvas id="cvWhite"></canvas>
     </div>
   </div>
+  <div class="preview-box">
+    <p class="label">Transparent (checkered)</p>
+    <div class="preview-canvas-wrap bg-check" style="width:320px;height:220px;">
+      <canvas id="cvCheck"></canvas>
+    </div>
+  </div>
+</div>
 
-  <button class="btn" onclick="window.print()">Save as PDF / Send to Printer</button>
+<div class="controls">
+  <div class="control-row">
+    <label>Background threshold</label>
+    <input type="range" id="threshold" min="10" max="100" value="45">
+    <span class="val" id="thVal">45</span>
+  </div>
+  <div class="control-row">
+    <label>Brightness boost</label>
+    <input type="range" id="brightness" min="100" max="350" value="220">
+    <span class="val" id="brVal">220%</span>
+  </div>
+  <div class="control-row">
+    <label>Saturation boost</label>
+    <input type="range" id="saturation" min="100" max="300" value="200">
+    <span class="val" id="satVal">200%</span>
+  </div>
+</div>
 
-  <p class="note">
-    Send the saved PDF to your t-shirt printer and specify:<br>
-    • Print method: DTG (Direct to Garment) or Screen Print<br>
-    • Garment: Black t-shirt<br>
-    • Placement: Centre chest, approx 25–28cm wide<br>
-    • Background: Black (blends with shirt — do not add white underbase unless your printer requires it)
-  </p>
+<div class="btns">
+  <button class="btn" id="dlBtn">Download Transparent PNG</button>
+  <button class="btn secondary" onclick="window.print()">Save as PDF</button>
+</div>
+
+<p class="note">
+  Adjust <strong style="color:#C8A96A;">Background threshold</strong> until the black background disappears cleanly.<br>
+  Use <strong style="color:#C8A96A;">Brightness</strong> and <strong style="color:#C8A96A;">Saturation</strong> to make the gold pop.<br>
+  Click <strong style="color:#C8A96A;">Download Transparent PNG</strong> to get the file — send it to your printer.<br>
+  Recommended: DTG print, centre chest, ~25–28cm wide.
+</p>
+
+<!-- Hidden source canvas for processing -->
+<canvas id="cvSource" style="display:none;"></canvas>
+
+<script>
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = 'brand_assets/B86F5D7A-7F70-4588-8843-509945AF14DE.PNG';
+
+  const cvSource = document.getElementById('cvSource');
+  const cvBlack  = document.getElementById('cvBlack');
+  const cvWhite  = document.getElementById('cvWhite');
+  const cvCheck  = document.getElementById('cvCheck');
+
+  let threshold  = 45;
+  let brightness = 2.2;
+  let saturation = 2.0;
+
+  img.onload = () => {
+    cvSource.width  = img.naturalWidth;
+    cvSource.height = img.naturalHeight;
+    cvSource.getContext('2d').drawImage(img, 0, 0);
+    render();
+  };
+
+  function render() {
+    const src = cvSource.getContext('2d');
+    const srcData = src.getImageData(0, 0, cvSource.width, cvSource.height);
+    const pixels  = srcData.data;
+
+    // Process pixels: remove dark background, boost brightness+saturation
+    const out = new Uint8ClampedArray(pixels.length);
+
+    for (let i = 0; i < pixels.length; i += 4) {
+      let r = pixels[i], g = pixels[i+1], b = pixels[i+2];
+
+      // Boost brightness
+      r = Math.min(255, r * brightness);
+      g = Math.min(255, g * brightness);
+      b = Math.min(255, b * brightness);
+
+      // Boost saturation via luminance
+      const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+      r = Math.min(255, Math.max(0, lum + (r - lum) * saturation));
+      g = Math.min(255, Math.max(0, lum + (g - lum) * saturation));
+      b = Math.min(255, Math.max(0, lum + (b - lum) * saturation));
+
+      // Determine alpha: dark pixels become transparent
+      const brightness_raw = (pixels[i] + pixels[i+1] + pixels[i+2]) / 3;
+      const alpha = brightness_raw < threshold ? 0 : 255;
+
+      // Smooth edge: partial transparency near threshold
+      const edgeAlpha = brightness_raw < threshold ? 0
+        : brightness_raw < threshold + 20
+          ? Math.round(((brightness_raw - threshold) / 20) * 255)
+          : 255;
+
+      out[i]   = r;
+      out[i+1] = g;
+      out[i+2] = b;
+      out[i+3] = edgeAlpha;
+    }
+
+    const outImgData = new ImageData(out, cvSource.width, cvSource.height);
+
+    // Draw to each preview canvas (scaled to fit)
+    [cvBlack, cvWhite, cvCheck].forEach(cv => {
+      const scale = Math.min(260 / cvSource.width, 160 / cvSource.height);
+      cv.width  = Math.round(cvSource.width  * scale);
+      cv.height = Math.round(cvSource.height * scale);
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+
+      // Draw processed image scaled
+      const tmp = document.createElement('canvas');
+      tmp.width  = cvSource.width;
+      tmp.height = cvSource.height;
+      tmp.getContext('2d').putImageData(outImgData, 0, 0);
+      ctx.drawImage(tmp, 0, 0, cv.width, cv.height);
+    });
+
+    // Store for download
+    window._outImgData = outImgData;
+  }
+
+  // Sliders
+  document.getElementById('threshold').addEventListener('input', e => {
+    threshold = +e.target.value;
+    document.getElementById('thVal').textContent = threshold;
+    render();
+  });
+
+  document.getElementById('brightness').addEventListener('input', e => {
+    brightness = +e.target.value / 100;
+    document.getElementById('brVal').textContent = e.target.value + '%';
+    render();
+  });
+
+  document.getElementById('saturation').addEventListener('input', e => {
+    saturation = +e.target.value / 100;
+    document.getElementById('satVal').textContent = e.target.value + '%';
+    render();
+  });
+
+  // Download full-resolution transparent PNG
+  document.getElementById('dlBtn').addEventListener('click', () => {
+    if (!window._outImgData) return;
+    const dlCanvas = document.createElement('canvas');
+    dlCanvas.width  = cvSource.width;
+    dlCanvas.height = cvSource.height;
+    dlCanvas.getContext('2d').putImageData(window._outImgData, 0, 0);
+    const link = document.createElement('a');
+    link.download = 'SLWorks-logo-transparent.png';
+    link.href = dlCanvas.toDataURL('image/png');
+    link.click();
+  });
+</script>
 
 </body>
 </html>
