@@ -54,5 +54,7 @@ db.exec(`
 try { db.exec("ALTER TABLE invoices ADD COLUMN invoice_number TEXT"); } catch {}
 try { db.exec("ALTER TABLE invoices ADD COLUMN doc_type TEXT DEFAULT 'Invoice'"); } catch {}
 try { db.exec("ALTER TABLE invoices ADD COLUMN square_requested INTEGER DEFAULT 0"); } catch {}
+try { db.exec("ALTER TABLE invoices ADD COLUMN callout_paid INTEGER DEFAULT 0"); } catch {}
+try { db.exec("ALTER TABLE invoices ADD COLUMN callout_amount REAL DEFAULT 0"); } catch {}
 
 export default db;

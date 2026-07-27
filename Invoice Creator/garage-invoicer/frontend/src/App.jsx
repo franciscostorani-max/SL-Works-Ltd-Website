@@ -18,7 +18,7 @@ export default function App() {
     api.getConfig().then(setConfig).catch(() => {});
   }, []);
 
-  async function handleGenerate(sendViaSquare) {
+  async function handleGenerate({ callOutPaid = false, callOutAmount = 0 } = {}) {
     setGenerating(true);
     setErrorMessage("");
     setResult(null);
@@ -33,7 +33,8 @@ export default function App() {
           unitPrice,
         })),
         notes,
-        sendViaSquare,
+        callOutPaid,
+        callOutAmount,
       });
       setResult(created);
     } catch (err) {

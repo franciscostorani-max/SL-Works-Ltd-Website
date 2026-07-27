@@ -22,6 +22,8 @@ export function generateInvoicePdf({
   notes,
   paymentUrl,
   isDraft = false,
+  callOutPaid = false,
+  callOutAmount = 0,
 }) {
   return new Promise((resolve, reject) => {
     const business = {
@@ -100,6 +102,19 @@ export function generateInvoicePdf({
     y += 14;
 
     // ── Total ─────────────────────────────────────────────────────────────────
+    if (callOutPaid) {
+      // Show subtotal, then deduction, then amount due
+      doc.fontSize(10).fillColor("#888");
+      doc.text("Subtotal",          col.rate,   y, { lineBreak: false });
+      doc.fillColor("#1c1c1e").text(gbp(subtotal), col.amount, y, { lineBreak: false });
+      y += 16;
+      doc.fontSize(10).fillColor("#888");
+      doc.text("Call out fee (paid as deposit)", col.rate, y, { lineBreak: false });
+      doc.fillColor("#555").text(`-${gbp(callOutAmount)}`, col.amount, y, { lineBreak: false });
+      y += 10;
+      doc.moveTo(col.rate, y).lineTo(545, y).strokeColor("#ddd").stroke();
+      y += 10;
+    }
     doc.fontSize(13).fillColor("#1c1c1e");
     doc.text("Total due", col.rate,   y);
     doc.text(gbp(total),  col.amount, y);

@@ -10,29 +10,18 @@ function nextId() {
 
 export default function LineItemEditor({ lineItems, onChange, defaultHourlyRate, callOutFee }) {
   const [draft, setDraft] = useState({ description: "", quantity: 1, unitPrice: defaultHourlyRate });
-
-  function addItem() {
-    if (!draft.description.trim()) return;
-    onChange([
-      ...lineItems,
-      {
-        id: nextId(),
-        description: draft.description.trim(),
-        quantity: Number(draft.quantity) || 1,
-        unitPrice: Number(draft.unitPrice) || 0,
-      },
-    ]);
-    setDraft({ description: "", quantity: 1, unitPrice: defaultHourlyRate });
-  }
+  const [callOutAmount, setCallOutAmount] = useState(callOutFee);
 
   function addCallOutPreset() {
+    const amount = Number(callOutAmount) || callOutFee;
     onChange([
       ...lineItems,
       {
         id: nextId(),
         description: "Call out fee",
         quantity: 1,
-        unitPrice: callOutFee,
+        unitPrice: amount,
+        isCallOut: true,
       },
     ]);
   }
@@ -49,6 +38,20 @@ export default function LineItemEditor({ lineItems, onChange, defaultHourlyRate,
     ]);
   }
 
+  function addItem() {
+    if (!draft.description.trim()) return;
+    onChange([
+      ...lineItems,
+      {
+        id: nextId(),
+        description: draft.description.trim(),
+        quantity: Number(draft.quantity) || 1,
+        unitPrice: Number(draft.unitPrice) || 0,
+      },
+    ]);
+    setDraft({ description: "", quantity: 1, unitPrice: defaultHourlyRate });
+  }
+
   function removeItem(id) {
     onChange(lineItems.filter((item) => item.id !== id));
   }
@@ -59,11 +62,34 @@ export default function LineItemEditor({ lineItems, onChange, defaultHourlyRate,
     <div className="step-panel">
       <h2 className="step-title">02 — Line items</h2>
 
-      <div className="preset-row">
+      {/* Call out preset with editable amount */}
+      <div className="preset-row" style={{ alignItems: "center" }}>
         <button className="chip-btn-callout" onClick={addCallOutPreset}>
-          + Call out £{callOutFee}
+          + Call out fee
         </button>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <span style={{ fontSize: 13, color: "var(--text-muted)" }}>£</span>
+          <input
+            type="number"
+            step="1"
+            min="0"
+            value={callOutAmount}
+            onChange={(e) => setCallOutAmount(e.target.value)}
+            style={{
+              width: 64,
+              background: "var(--surface-raised)",
+              border: "1px solid var(--border)",
+              borderRadius: 6,
+              color: "var(--text)",
+              padding: "4px 8px",
+              fontSize: 14,
+              fontFamily: "var(--font-mono)",
+            }}
+          />
+        </span>
       </div>
+
+      {/* Labour presets */}
       <div className="preset-row">
         <span className="preset-label">Quick add labour:</span>
         {[0.5, 1, 2, 4].map((h) => (

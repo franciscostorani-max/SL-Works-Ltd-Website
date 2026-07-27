@@ -17,12 +17,25 @@ export default function ReviewStep({
   generating,
   errorMessage,
 }) {
+  const [callOutPaid, setCallOutPaid] = useState(false);
   const [sendViaSquare, setSendViaSquare] = useState(false);
   const [sending, setSending] = useState(false);
   const [sendResult, setSendResult] = useState(null);
   const [sendError, setSendError] = useState("");
 
-  const total = Math.round(lineItems.reduce((s, i) => s + i.quantity * i.unitPrice, 0) * 100) / 100;
+  const subtotal = Math.round(
+    lineItems.reduce((s, i) => s + i.quantity * i.unitPrice, 0) * 100
+  ) / 100;
+
+  // Sum of any line items flagged as call out fee
+  const callOutTotal = Math.round(
+    lineItems
+      .filter((i) => i.isCallOut)
+      .reduce((s, i) => s + i.quantity * i.unitPrice, 0) * 100
+  ) / 100;
+
+  const hasCallOut = callOutTotal > 0;
+  const amountDue = callOutPaid ? Math.max(0, subtotal - callOutTotal) : subtotal;
 
   async function handleSendToClient() {
     setSending(true);
@@ -60,14 +73,39 @@ export default function ReviewStep({
       </div>
 
       <div className="ticket-block">
+        {/* Show subtotal row only when call out is being deducted */}
+        {callOutPaid && (
+          <>
+            <div className="totals-row">
+              <span>Subtotal</span>
+              <span className="mono">{gbp(subtotal)}</span>
+            </div>
+            <div className="totals-row">
+              <span style={{ color: "var(--success)" }}>Call out fee (paid)</span>
+              <span className="mono" style={{ color: "var(--success)" }}>-{gbp(callOutTotal)}</span>
+            </div>
+          </>
+        )}
         <div className="totals-row totals-final">
           <span>Total due</span>
-          <span className="mono">{gbp(total)}</span>
+          <span className="mono">{gbp(amountDue)}</span>
         </div>
         <div className="totals-row">
           <span className="no-vat-note">No VAT — not registered</span>
         </div>
       </div>
+
+      {/* Call out paid checkbox — only shows when a call out fee line item exists */}
+      {hasCallOut && (
+        <label className="checkbox-row">
+          <input
+            type="checkbox"
+            checked={callOutPaid}
+            onChange={(e) => setCallOutPaid(e.target.checked)}
+          />
+          <span>Call out fee already paid (paid as deposit — deduct from total)</span>
+        </label>
+      )}
 
       <textarea
         className="field textarea"
@@ -83,7 +121,7 @@ export default function ReviewStep({
         <button
           className="primary-btn full-width"
           disabled={generating || lineItems.length === 0}
-          onClick={() => onGenerate()}
+          onClick={() => onGenerate({ callOutPaid, callOutAmount: callOutTotal })}
         >
           {generating ? "Generating…" : `Generate ${docType}`}
         </button>
@@ -97,12 +135,6 @@ export default function ReviewStep({
           <a className="secondary-btn full-width" href={result.pdfUrl} target="_blank" rel="noreferrer">
             Open Draft PDF
           </a>
-
-          {result.squarePushed && (
-            <a className="secondary-btn full-width" href={result.paymentUrl} target="_blank" rel="noreferrer">
-              View Square payment link
-            </a>
-          )}
 
           {sendError && <div className="error-text">{sendError}</div>}
 

@@ -14,9 +14,13 @@ function nextInvoiceNumber() {
   return `INV-${year}-${String(count + 1).padStart(4, "0")}`;
 }
 
-function computeTotals(lineItems) {
+function computeTotals(lineItems, callOutPaid = false, callOutAmount = 0) {
   const subtotal = lineItems.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0);
-  return { subtotal: Math.round(subtotal * 100) / 100, total: Math.round(subtotal * 100) / 100 };
+  const total = callOutPaid ? Math.max(0, subtotal - callOutAmount) : subtotal;
+  return {
+    subtotal: Math.round(subtotal * 100) / 100,
+    total:    Math.round(total    * 100) / 100,
+  };
 }
 
 router.get("/", (req, res) => {
@@ -36,7 +40,8 @@ router.get("/config", (req, res) => {
 
 // Create a draft — no invoice number or Square link yet
 router.post("/", async (req, res) => {
-  const { clientId, vehicleId, docType = "Invoice", lineItems, notes, sendViaSquare } = req.body;
+  const { clientId, vehicleId, docType = "Invoice", lineItems, notes, sendViaSquare,
+          callOutPaid = false, callOutAmount = 0 } = req.body;
 
   if (!clientId) return res.status(400).json({ error: "clientId is required" });
   if (!Array.isArray(lineItems) || lineItems.length === 0)
@@ -46,7 +51,7 @@ router.post("/", async (req, res) => {
   if (!client) return res.status(404).json({ error: "Client not found" });
 
   const vehicle = vehicleId ? db.prepare("SELECT * FROM vehicles WHERE id = ?").get(vehicleId) : null;
-  const { subtotal, total } = computeTotals(lineItems);
+  const { subtotal, total } = computeTotals(lineItems, callOutPaid, callOutAmount);
   const id = randomUUID();
 
   const pdfPath = await generateInvoicePdf({
@@ -60,17 +65,20 @@ router.post("/", async (req, res) => {
     notes,
     paymentUrl: null,
     isDraft: true,
+    callOutPaid,
+    callOutAmount,
   });
 
   db.prepare(
     `INSERT INTO invoices
       (id, client_id, vehicle_id, doc_type, status, line_items, subtotal, total, notes,
-       square_requested, square_invoice_id, square_payment_url, pdf_path)
-     VALUES (?, ?, ?, ?, 'draft', ?, ?, ?, ?, ?, NULL, NULL, ?)`
+       square_requested, square_invoice_id, square_payment_url, pdf_path, callout_paid, callout_amount)
+     VALUES (?, ?, ?, ?, 'draft', ?, ?, ?, ?, ?, NULL, NULL, ?, ?, ?)`
   ).run(
     id, clientId, vehicleId || null, docType,
     JSON.stringify(lineItems), subtotal, total,
-    notes || null, sendViaSquare ? 1 : 0, pdfPath
+    notes || null, sendViaSquare ? 1 : 0, pdfPath,
+    callOutPaid ? 1 : 0, callOutAmount
   );
 
   res.status(201).json({
@@ -130,6 +138,8 @@ router.post("/:id/send", async (req, res) => {
     notes: invoice.notes,
     paymentUrl,
     isDraft: false,
+    callOutPaid:   Boolean(invoice.callout_paid),
+    callOutAmount: invoice.callout_amount || 0,
   });
 
   // Email the PDF
