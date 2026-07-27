@@ -81,7 +81,7 @@ export default function ReviewStep({
               <span className="mono">{gbp(subtotal)}</span>
             </div>
             <div className="totals-row">
-              <span style={{ color: "var(--success)" }}>Call out fee (paid)</span>
+              <span style={{ color: "var(--success)" }}>Amount paid</span>
               <span className="mono" style={{ color: "var(--success)" }}>-{gbp(callOutTotal)}</span>
             </div>
           </>

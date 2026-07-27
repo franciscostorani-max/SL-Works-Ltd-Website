@@ -109,7 +109,7 @@ export function generateInvoicePdf({
       doc.fillColor("#1c1c1e").text(gbp(subtotal), col.amount, y, { lineBreak: false });
       y += 16;
       doc.fontSize(10).fillColor("#888");
-      doc.text("Call out fee (paid as deposit)", col.rate, y, { lineBreak: false });
+      doc.text("Amount paid", col.rate, y, { lineBreak: false });
       doc.fillColor("#555").text(`-${gbp(callOutAmount)}`, col.amount, y, { lineBreak: false });
       y += 10;
       doc.moveTo(col.rate, y).lineTo(545, y).strokeColor("#ddd").stroke();
